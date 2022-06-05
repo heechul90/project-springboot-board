@@ -64,6 +64,6 @@ public class Board {
     }
 
     public void plusCount() {
-        this.count += count;
+        this.count += 1;
     }
 }
