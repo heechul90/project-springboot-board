@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 public class BoardDto {
 
-    private Long id;
+    private Long boardId;
     private String title;
     private String content;
     private String writer;

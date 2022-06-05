@@ -27,7 +27,7 @@ public class WebBoardController {
         List<BoardDto> resultList = boards.stream()
                 .map(board -> {
                     return BoardDto.builder()
-                            .id(board.getId())
+                            .boardId(board.getId())
                             .title(board.getTitle())
                             .content(board.getContent())
                             .writer(board.getWriter())
