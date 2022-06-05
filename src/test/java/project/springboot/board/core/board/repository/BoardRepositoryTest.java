@@ -3,6 +3,7 @@ package project.springboot.board.core.board.repository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import project.springboot.board.core.board.domain.Board;
 
@@ -49,6 +50,7 @@ class BoardRepositoryTest {
     }
 
     @Test
+    @Rollback(value = false)
     public void findAllTest() throws Exception{
         //given
         Board board1 = getBoard("title1", "content", "spring");
