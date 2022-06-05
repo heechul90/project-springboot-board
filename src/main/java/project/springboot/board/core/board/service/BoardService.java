@@ -36,6 +36,7 @@ public class BoardService {
     /**
      * Board 저장
      */
+    @Transactional
     public Board saveBoard(Board board) {
         Board savedBoard = boardRepository.save(board);
         return savedBoard;
@@ -44,6 +45,7 @@ public class BoardService {
     /**
      * Board 수정
      */
+    @Transactional
     public void updateBoard(Long id, String title, String content) {
         Board findBoard = boardRepository.findById(id).orElseThrow(() -> new NoSuchElementException("데이터가 존재하지 않습니다."));
         findBoard.updateBoardBuilder()
@@ -55,6 +57,7 @@ public class BoardService {
     /**
      * Board 삭제
      */
+    @Transactional
     public void deleteBoard(Long id) {
         Board findBoard = boardRepository.findById(id).orElseThrow(() -> new NoSuchElementException("데이터가 존재하지 않습니다."));
         boardRepository.delete(findBoard);

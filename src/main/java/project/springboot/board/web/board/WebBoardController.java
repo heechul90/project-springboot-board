@@ -6,10 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import project.springboot.board.core.board.domain.Board;
 import project.springboot.board.core.board.dto.BoardDto;
 import project.springboot.board.core.board.service.BoardService;
@@ -26,6 +23,9 @@ public class WebBoardController {
 
     private final BoardService boardService;
 
+    /**
+     * 게시판 목록
+     */
     @GetMapping
     public String boards(Model model) {
         List<Board> boards = boardService.findBoards();
@@ -45,15 +45,60 @@ public class WebBoardController {
         return "web/board/boardList";
     }
 
+    /**
+     * 게시판 등록 폼
+     */
     @GetMapping(value = "/add")
     public String addBoardForm(Model model) {
         model.addAttribute("board", new AddBoardForm());
         return "web/board/addBoardForm";
     }
 
+    /**
+     * 게시판 등록
+     */
     @PostMapping(value = "/add")
     public String addBoard(@Validated @ModelAttribute("board") AddBoardForm form, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "web/board/addBoardForm";
+        }
+
+        log.info("title = {}", form.getTitle());
+        log.info("content = {}", form.getContent());
+        log.info("writer = {}", form.getWriter());
+
+        Board board = Board.createBoardBuilder()
+                .title(form.getTitle())
+                .content(form.getContent())
+                .writer(form.getWriter())
+                .build();
+        boardService.saveBoard(board);
+
         return "redirect:/web/boards";
     }
+
+    /**
+     * 게시판 상세
+     */
+    @GetMapping(value = "{boardId}")
+    public String boardDetail(@PathVariable("boardId") Long id, Model model) {
+        Board findBoard = boardService.findBoard(id);
+        model.addAttribute("board", findBoard);
+        return "web/board/boardDetail";
+    }
+
+    /**
+     * 게시판 수정 폼
+     */
+    @GetMapping(value = "{boardId}/edit")
+    public String editBoardForm(@PathVariable("boardId") Long id, Model model) {
+        model.addAttribute("board", boardService.findBoard(id));
+        return "web/board/editBoardForm";
+    }
+
+    /**
+     * 게시판 수정
+     */
 
 }
