@@ -11,6 +11,7 @@ import project.springboot.board.core.board.domain.Board;
 import project.springboot.board.core.board.dto.BoardDto;
 import project.springboot.board.core.board.service.BoardService;
 import project.springboot.board.web.board.form.AddBoardForm;
+import project.springboot.board.web.board.form.EditBoardForm;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -84,7 +85,16 @@ public class WebBoardController {
     @GetMapping(value = "{boardId}")
     public String boardDetail(@PathVariable("boardId") Long id, Model model) {
         Board findBoard = boardService.findBoard(id);
-        model.addAttribute("board", findBoard);
+        BoardDto board = BoardDto.builder()
+                .boardId(findBoard.getId())
+                .title(findBoard.getTitle())
+                .content(findBoard.getContent())
+                .writer(findBoard.getWriter())
+                .createdDate(findBoard.getCreatedDate())
+                .count(findBoard.getCount())
+                .build();
+
+        model.addAttribute("board", board);
         return "web/board/boardDetail";
     }
 
@@ -93,12 +103,43 @@ public class WebBoardController {
      */
     @GetMapping(value = "{boardId}/edit")
     public String editBoardForm(@PathVariable("boardId") Long id, Model model) {
-        model.addAttribute("board", boardService.findBoard(id));
+        Board findBoard = boardService.findBoard(id);
+        BoardDto board = BoardDto.builder()
+                .boardId(findBoard.getId())
+                .title(findBoard.getTitle())
+                .content(findBoard.getContent())
+                .writer(findBoard.getWriter())
+                .createdDate(findBoard.getCreatedDate())
+                .count(findBoard.getCount())
+                .build();
+
+        model.addAttribute("board", board);
         return "web/board/editBoardForm";
     }
 
     /**
      * 게시판 수정
      */
+    @PostMapping(value = "/{boardId}/edit")
+    public String editBoard(@PathVariable("boardId") Long id,
+                            @Validated @ModelAttribute("board") EditBoardForm form, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "web/boards/editBoardForm";
+        }
+
+        boardService.updateBoard(id, form.getTitle(), form.getContent());
+        return "redirect:/web/boards/{boardId}";
+    }
+
+    /**
+     * 게시판 삭제
+     */
+    @PostMapping(value = "{boardId}/delete")
+    public String deleteBoard(@PathVariable("boardId") Long id) {
+        System.out.println("id = " + id);
+        boardService.deleteBoard(id);
+        return "redirect:/web/boards";
+    }
 
 }

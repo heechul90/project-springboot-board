@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판 수정</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap5/css/bootstrap.min.css}">
+</head>
+<body>
+
+    <div class="container">
+        <div class="text-center">
+            <h2>게시판 수정</h2>
+        </div>
+        <hr class="my-4">
+
+        <form th:accept="@{/web/boards/edit}" th:object="${board}" method="post">
+            <div>
+                <label for="title" th:text="제목">제목</label>
+                <input type="text" th:field="*{title}" th:errorclass="field-error" class="form-control" placeholder="제목을 입력하세요.">
+                <div class="field-error" th:errors="*{title}">
+                    제목 오류
+                </div>
+            </div>
+            <hr class="my-4"/>
+
+            <div>
+                <label for="content" th:text="내용">내용</label>
+                <textarea th:field="*{content}" th:errorclass="field-error" class="form-control" rows="10" placeholder="내용을 입력하세요."/>
+                <div class="field-error" th:errors="*{content}">
+                    내용 오류
+                </div>
+            </div>
+            <hr class="my-4"/>
+
+            <div>
+                <label for="writer" th:text="작성자">작성자</label>
+                <input type="text" th:field="*{writer}" th:errorclass="field-error" class="form-control" placeholder="작성자를 입력하세요." readonly>
+            </div>
+            <hr class="my-4"/>
+
+            <div class="row">
+                <div class="col">
+                    <button class="w-100 btn btn-sm btn-secondary" type="button" th:onclick="|location.href='@{/web/boards/{boardId}(boardId=${board.boardId})}'|" th:text="취소">취소</button>
+                </div>
+                <div class="col">
+                    <button class="w-100 btn btn-sm btn-primary" type="submit" th:text="수정">수정</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <javascript>
+        <script th:href="@{/lib/bootstrap5/js/bootstrap.bundle.min.js}"></script>
+        <script th:href="@{/lib/bootstrap5/js/bootstrap.min.js}"></script>
+    </javascript>
+</body>
+</html>
