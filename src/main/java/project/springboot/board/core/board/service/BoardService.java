@@ -26,6 +26,7 @@ public class BoardService {
     /**
      * Board 단건 조회
      */
+    @Transactional
     public Board findBoard(Long id) {
         Board findBoard = boardRepository.findById(id).orElseThrow(() -> new NoSuchElementException("데이터가 존재하지 않습니다."));
         //조회수증가

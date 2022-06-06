@@ -12,46 +12,42 @@
             <h2>게시판 상세</h2>
         </div>
         <hr class="my-4">
-    </div>
 
-    <div>
-        <label for="title" th:text="제목">제목</label>
-        <input type="text" id="title" name="title" class="form-control" th:value="${board.title}" readonly/>
-    </div>
-
-    <div>
-        <label for="content" th:text="내용">내용</label>
-        <textarea id="content" name="content" class="form-control" th:text="${board.content}" readonly/>
-
-    </div>
-
-    <div>
-        <label for="writer" th:text="작성자">작성자</label>
-        <input type="text" id="writer" name="writer" class="form-control" th:value="${board.writer}" readonly/>
-    </div>
-    <hr class="my-4">
-
-    <div class="row">
-        <div class="col">
-            <button class="w-100 btn btn-danger btn-lg" type="button"
-                    th:onclick="|location.href='@{/web/boards/{boardId}/delete(boardId=${board.boardId})}'|"
-                    th:text="삭제">
-                삭제
-            </button>
+        <div>
+            <label for="title" th:text="제목">제목</label>
+            <input type="text" id="title" name="title" class="form-control" th:value="${board.title}" readonly/>
         </div>
-        <div class="col">
-            <button class="w-100 btn btn-secondary btn-lg" type="button"
-                    th:onclick="|location.href='@{/web/boards}'|"
-                    th:text="목록">
-                목록
-            </button>
+
+        <div>
+            <label for="content" th:text="내용">내용</label>
+            <textarea id="content" name="content" class="form-control" th:text="${board.content}" rows="10" readonly/>
+
         </div>
-        <div class="col">
-            <button class="w-100 btn btn-primary btn-lg" type="button"
-                    th:onclick="|location.href='@{/web/boards/{boardId}/edit(boardId=${board.boardId})}'|"
-                    th:text="수정">
-                수정
-            </button>
+
+        <div>
+            <label for="writer" th:text="작성자">작성자</label>
+            <input type="text" id="writer" name="writer" class="form-control" th:value="${board.writer}" readonly/>
+        </div>
+        <hr class="my-4">
+
+        <div class="row text-end">
+            <div class="col-sm-12">
+                <button class="btn btn-danger btn-lg" type="button"
+                        th:onclick="|location.href='@{/web/boards/{boardId}/delete(boardId=${board.boardId})}'|"
+                        th:text="삭제">
+                    삭제
+                </button>
+                <button class="btn btn-secondary btn-lg" type="button"
+                        th:onclick="|location.href='@{/web/boards}'|"
+                        th:text="목록">
+                    목록
+                </button>
+                <button class="btn btn-primary btn-lg" type="button"
+                        th:onclick="|location.href='@{/web/boards/{boardId}/edit(boardId=${board.boardId})}'|"
+                        th:text="수정">
+                    수정
+                </button>
+            </div>
         </div>
     </div>
 

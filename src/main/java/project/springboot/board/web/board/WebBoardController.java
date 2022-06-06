@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.springboot.board.core.board.domain.Board;
 import project.springboot.board.core.board.dto.BoardDto;
 import project.springboot.board.core.board.service.BoardService;
@@ -121,14 +122,17 @@ public class WebBoardController {
      * 게시판 수정
      */
     @PostMapping(value = "/{boardId}/edit")
-    public String editBoard(@PathVariable("boardId") Long id,
-                            @Validated @ModelAttribute("board") EditBoardForm form, BindingResult bindingResult) {
+    public String editBoard(@PathVariable("boardId") Long boardId,
+                            @Validated @ModelAttribute("board") EditBoardForm form, BindingResult bindingResult,
+                            RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            return "web/boards/editBoardForm";
+            return "web/board/editBoardForm";
         }
 
-        boardService.updateBoard(id, form.getTitle(), form.getContent());
+        boardService.updateBoard(boardId, form.getTitle(), form.getContent());
+
+        redirectAttributes.addAttribute("boardId", boardId);
         return "redirect:/web/boards/{boardId}";
     }
 

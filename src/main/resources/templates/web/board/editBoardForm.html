@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title>게시판 수정</title>
     <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap5/css/bootstrap.min.css}">
+    <style>
+        .field-error { border-color: #dc3545; color: #dc3545}
+    </style>
 </head>
 <body>
 
@@ -13,7 +16,10 @@
         </div>
         <hr class="my-4">
 
-        <form th:accept="@{/web/boards/edit}" th:object="${board}" method="post">
+        <form th:action="@{/web/boards/{boardId}/edit(boardId=${boardId})}" th:object="${board}" method="post">
+            <fieldset>
+                <input type="hidden" th:field="*{boardId}">
+            </fieldset>
             <div>
                 <label for="title" th:text="제목">제목</label>
                 <input type="text" th:field="*{title}" th:errorclass="field-error" class="form-control" placeholder="제목을 입력하세요.">
@@ -34,16 +40,14 @@
 
             <div>
                 <label for="writer" th:text="작성자">작성자</label>
-                <input type="text" th:field="*{writer}" th:errorclass="field-error" class="form-control" placeholder="작성자를 입력하세요." readonly>
+                <input type="text" th:field="*{writer}" class="form-control" placeholder="작성자를 입력하세요." readonly>
             </div>
             <hr class="my-4"/>
 
-            <div class="row">
+            <div class="row text-end">
                 <div class="col">
-                    <button class="w-100 btn btn-sm btn-secondary" type="button" th:onclick="|location.href='@{/web/boards/{boardId}(boardId=${board.boardId})}'|" th:text="취소">취소</button>
-                </div>
-                <div class="col">
-                    <button class="w-100 btn btn-sm btn-primary" type="submit" th:text="수정">수정</button>
+                    <button class="btn btn-lg btn-secondary" type="button" th:onclick="|location.href='@{/web/boards/{boardId}(boardId=${board.boardId})}'|" th:text="취소">취소</button>
+                    <button class="btn btn-lg btn-primary" type="submit" th:text="수정">수정</button>
                 </div>
             </div>
         </form>

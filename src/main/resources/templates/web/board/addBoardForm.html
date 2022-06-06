@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title>게시판 등록</title>
     <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap5/css/bootstrap.min.css}">
+    <style>
+        .field-error { border-color: #dc3545; color: #dc3545}
+    </style>
 </head>
 <body>
 
@@ -41,12 +44,10 @@
             </div>
             <hr class="my-4"/>
 
-            <div class="row">
+            <div class="row text-end">
                 <div class="col">
-                    <button class="w-100 btn btn-sm btn-secondary" type="button" th:onclick="|location.href='@{/web/boards}'|" th:text="취소">취소</button>
-                </div>
-                <div class="col">
-                    <button class="w-100 btn btn-sm btn-primary" type="submit" th:text="저장">저장</button>
+                    <button class="btn btn-lg btn-secondary" type="button" th:onclick="|location.href='@{/web/boards}'|" th:text="취소">취소</button>
+                    <button class="btn btn-lg btn-primary" type="submit" th:text="저장">저장</button>
                 </div>
             </div>
         </form>
