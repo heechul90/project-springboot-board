@@ -10,7 +10,6 @@ import project.springboot.board.core.board.domain.Board;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -20,6 +19,7 @@ import static org.assertj.core.api.Assertions.*;
 @Transactional
 class BoardRepositoryTest {
 
+    public static final String ERROR_MESSAGE = "데이터가 존재하지 않습니다.";
     @PersistenceContext
     EntityManager em;
 
@@ -43,7 +43,7 @@ class BoardRepositoryTest {
         Board savedBoard = boardRepository.save(board);
 
         //then
-        Board findBoard = boardRepository.findById(savedBoard.getId()).orElseThrow(() -> new NoSuchElementException("데이터가 존재하지 않습니다."));
+        Board findBoard = boardRepository.findById(savedBoard.getId()).orElseThrow(() -> new NoSuchElementException(ERROR_MESSAGE));
         assertThat(findBoard.getTitle()).isEqualTo("title");
         assertThat(findBoard.getContent()).isEqualTo("content");
         assertThat(findBoard.getWriter()).isEqualTo("spring");
@@ -77,7 +77,7 @@ class BoardRepositoryTest {
         em.clear();
 
         //when
-        Board findBoard = boardRepository.findById(savedBoard.getId()).orElseThrow(() -> new NoSuchElementException("데이터가 존재하지 않습니다."));
+        Board findBoard = boardRepository.findById(savedBoard.getId()).orElseThrow(() -> new NoSuchElementException(ERROR_MESSAGE));
         String updateTitleParam = "updateTitle";
         String updateContentParam = "updateContent";
         findBoard.updateBoardBuilder()
@@ -88,7 +88,7 @@ class BoardRepositoryTest {
         em.clear();
 
         //then
-        Board updatedBoard = boardRepository.findById(findBoard.getId()).orElseThrow(() -> new NoSuchElementException("데이터가 존재하지 않습니다."));
+        Board updatedBoard = boardRepository.findById(findBoard.getId()).orElseThrow(() -> new NoSuchElementException(ERROR_MESSAGE));
         assertThat(updatedBoard.getTitle()).isEqualTo(updateTitleParam);
         assertThat(updatedBoard.getContent()).isEqualTo(updateContentParam);
     }
@@ -103,14 +103,14 @@ class BoardRepositoryTest {
 
         //when
         Long deleteId = savedBoard.getId();
-        Board findBoard = boardRepository.findById(deleteId).orElseThrow(() -> new NoSuchElementException("데이터가 존재하지 않습니다."));
+        Board findBoard = boardRepository.findById(deleteId).orElseThrow(() -> new NoSuchElementException(ERROR_MESSAGE));
         boardRepository.delete(findBoard);
         em.flush();
         em.clear();
 
         //then
-        assertThatThrownBy(() -> boardRepository.findById(deleteId).orElseThrow(() -> new NoSuchElementException("데이터가 존재하지 않습니다.")))
+        assertThatThrownBy(() -> boardRepository.findById(deleteId).orElseThrow(() -> new NoSuchElementException(ERROR_MESSAGE)))
                 .isInstanceOf(NoSuchElementException.class)
-                .hasMessageContaining("데이터가 존재하지");
+                .hasMessageContaining(ERROR_MESSAGE);
     }
 }

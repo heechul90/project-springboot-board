@@ -2,6 +2,7 @@ package project.springboot.board.web.board;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.springboot.board.core.board.domain.Board;
 import project.springboot.board.core.board.dto.BoardDto;
 import project.springboot.board.core.board.service.BoardService;
+import project.springboot.board.core.common.json.JsonResult;
 import project.springboot.board.web.board.form.AddBoardForm;
 import project.springboot.board.web.board.form.EditBoardForm;
 
@@ -140,9 +142,10 @@ public class WebBoardController {
      * 게시판 삭제
      */
     @PostMapping(value = "{boardId}/delete")
-    public String deleteBoard(@PathVariable("boardId") Long id) {
+    @ResponseBody
+    public JsonResult deleteBoard(@PathVariable("boardId") Long id) {
         boardService.deleteBoard(id);
-        return "redirect:/web/boards";
+        return new JsonResult(HttpStatus.OK);
     }
 
 }
