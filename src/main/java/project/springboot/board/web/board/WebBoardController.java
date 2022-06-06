@@ -141,7 +141,6 @@ public class WebBoardController {
      */
     @PostMapping(value = "{boardId}/delete")
     public String deleteBoard(@PathVariable("boardId") Long id) {
-        System.out.println("id = " + id);
         boardService.deleteBoard(id);
         return "redirect:/web/boards";
     }
