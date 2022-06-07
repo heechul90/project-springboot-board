@@ -24,3 +24,6 @@ password :
 ```text
 port : 9000
 ```
+
+### gitgub 참고
+https://github.com/heechul90/project-springboot-board
